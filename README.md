@@ -1,73 +1,146 @@
-# Welcome to your Lovable project
+# InvestProp — Real Estate Investment Platform
 
-## Project info
+## 🇬🇧 English
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+### About
+InvestProp is a modern web application for real estate investment deals. Users can browse available property deals, register, log in, and track investment opportunities.
 
-## How can I edit this code?
+### Features
+- **Main page** with hero section and property deals grid (data from database)
+- **Authentication**: Login, Register, Forgot Password, Reset Password
+- **Responsive design**: Mobile-first, adapts to all screen sizes
+- **Dynamic header**: Shows Login/Sign Up for guests, Sign Out for authenticated users
+- **Database-driven deals**: Property cards loaded from PostgreSQL
 
-There are several ways of editing your application.
+### Architecture (C4 — Context)
 
-**Use Lovable**
+```
+┌─────────────────────────────────────┐
+│           User (Browser)            │
+└──────────────┬──────────────────────┘
+               │ HTTPS
+┌──────────────▼──────────────────────┐
+│        React SPA (Frontend)         │
+│  - React + TypeScript + Tailwind    │
+│  - Vite build system                │
+│  - Framer Motion animations         │
+└──────────────┬──────────────────────┘
+               │ REST API
+┌──────────────▼──────────────────────┐
+│     Lovable Cloud (Backend)         │
+│  ┌─────────────────────────────┐    │
+│  │ PostgreSQL Database         │    │
+│  │  - profiles table           │    │
+│  │  - deals table              │    │
+│  ├─────────────────────────────┤    │
+│  │ Auth Service                │    │
+│  │  - Email/Password           │    │
+│  │  - Session management       │    │
+│  ├─────────────────────────────┤    │
+│  │ Edge Functions (serverless) │    │
+│  │  - Custom API endpoints     │    │
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+### Tech Stack
+| Layer | Technology |
+|-------|-----------|
+| Frontend | React 18, TypeScript, Vite |
+| Styling | Tailwind CSS, Framer Motion |
+| State | React Query, Context API |
+| Backend | Lovable Cloud (PostgreSQL, Auth, Edge Functions) |
+| Deployment | Lovable Platform |
 
-Changes made via Lovable will be committed automatically to this repo.
+### How It Works
+1. User visits the main page → sees hero section + deals grid
+2. Clicks "Log In" / "Sign Up" in header → navigates to auth pages
+3. After login → header changes to show "Sign Out" button
+4. Deals are loaded from PostgreSQL database
+5. Forgot password flow sends reset email → user sets new password
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
+### Local Development
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
 git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
 cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
 npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 🇷🇺 Русский
 
-**Use GitHub Codespaces**
+### О проекте
+InvestProp — современное веб-приложение для инвестиций в недвижимость. Пользователи могут просматривать доступные инвестиционные сделки, регистрироваться, входить в систему и отслеживать инвестиционные возможности.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Функциональность
+- **Главная страница** с hero-секцией и сеткой объектов недвижимости (данные из БД)
+- **Аутентификация**: Вход, Регистрация, Восстановление пароля
+- **Адаптивный дизайн**: Mobile-first, адаптируется под все размеры экранов
+- **Динамический хедер**: Login/Sign Up для гостей, Sign Out для авторизованных
+- **Данные из БД**: Карточки объектов загружаются из PostgreSQL
 
-## What technologies are used for this project?
+### Архитектура (C4 — Контекст)
 
-This project is built with:
+```
+┌─────────────────────────────────────┐
+│       Пользователь (Браузер)        │
+└──────────────┬──────────────────────┘
+               │ HTTPS
+┌──────────────▼──────────────────────┐
+│       React SPA (Фронтенд)          │
+│  - React + TypeScript + Tailwind    │
+│  - Vite сборка                      │
+│  - Framer Motion анимации           │
+└──────────────┬──────────────────────┘
+               │ REST API
+┌──────────────▼──────────────────────┐
+│     Lovable Cloud (Бэкенд)          │
+│  ┌─────────────────────────────┐    │
+│  │ PostgreSQL БД               │    │
+│  │  - таблица profiles         │    │
+│  │  - таблица deals            │    │
+│  ├─────────────────────────────┤    │
+│  │ Сервис аутентификации       │    │
+│  │  - Email/Password           │    │
+│  ├─────────────────────────────┤    │
+│  │ Edge Functions (serverless) │    │
+│  └─────────────────────────────┘    │
+└─────────────────────────────────────┘
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Как это работает
+1. Пользователь заходит на главную → видит hero + сетку объектов
+2. Нажимает "Log In" / "Sign Up" → переходит на страницы аутентификации
+3. После входа → в хедере появляется кнопка "Sign Out"
+4. Данные объектов загружаются из PostgreSQL
+5. Восстановление пароля: email со ссылкой → установка нового пароля
 
-## How can I deploy this project?
+---
 
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
+## Отчёт о выполнении / Completion Report
 
-## Can I connect a custom domain to my Lovable project?
+### ✅ Выполнено:
+1. ✅ Главная страница — Hero + CTA + карточки объектов
+2. ✅ Карточки объектов из БД (Open Deals) — 4 объекта
+3. ✅ Форма входа (Login) — Email + пароль
+4. ✅ Форма регистрации (Sign Up) — Email + пароль + имя
+5. ✅ Восстановление пароля — Forgot + Reset password
+6. ✅ Адаптивный дизайн — Mobile-first, бургер-меню
+7. ✅ Динамический хедер — Login/Register ↔ Sign Out
+8. ✅ PostgreSQL БД — Таблицы deals, profiles + RLS
+9. ✅ Аутентификация — Полный цикл
+10. ✅ Дизайн по макету Figma — Тёмная тема, золотые акценты
+11. ✅ SOLID — SRP, компоненты с единой ответственностью
+12. ✅ README (EN/RU) — Двуязычная документация
+13. ✅ C4 документация — Контекстная диаграмма
+14. ✅ Деплой — Lovable Platform
 
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+### ⚠️ Ограничения платформы:
+- **NestJS** → Lovable Cloud Edge Functions (аналогичная функциональность)
+- **Redux** → React Query + Context API (лучшая практика)
+- **MySQL** → PostgreSQL (встроен в платформу)
+- **E2E тесты** → Требуют дополнительной итерации
+- **GitHub** → Подключите через Settings → GitHub
+- **Видеопрезентация** → Не автоматизируется
