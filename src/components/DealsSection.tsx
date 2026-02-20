@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { dealsService } from "@/services/dealsService";
 import DealCard from "@/components/DealCard";
+import type { Deal } from "@/types/deals";
 import marinaTorch from "@/assets/marina-torch.jpg";
 import hhhrTower from "@/assets/hhhr-tower.jpg";
 import oceanPeaks from "@/assets/ocean-peaks.jpg";
@@ -13,32 +14,15 @@ const imageMap: Record<string, string> = {
   "/images/al-yaqoub.jpg": alYaqoub,
 };
 
-interface Deal {
-  id: string;
-  title: string;
-  price: number;
-  currency: string;
-  ticket: number;
-  yield_percent: number;
-  sold_percent: number;
-  days_left: number | null;
-  image_url: string | null;
-}
-
 const DealsSection = () => {
   const [deals, setDeals] = useState<Deal[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchDeals = async () => {
-      const { data, error } = await supabase
-        .from("deals")
-        .select("*")
-        .order("created_at", { ascending: true });
-      if (!error && data) setDeals(data);
-      setLoading(false);
-    };
-    fetchDeals();
+    dealsService.getAll()
+      .then(setDeals)
+      .catch(console.error)
+      .finally(() => setLoading(false));
   }, []);
 
   if (loading) {
