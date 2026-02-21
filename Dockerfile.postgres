@@ -1,0 +1,56 @@
+# ============================================================
+# Dockerfile — PostgreSQL with DevOps Best Practices
+# ============================================================
+# Multi-stage approach not needed for DB, but we follow
+# security-hardened, production-ready conventions.
+# ============================================================
+
+# 1. Use official PostgreSQL image with Alpine for minimal footprint
+FROM postgres:16-alpine
+
+# 2. Metadata labels (OCI standard)
+LABEL maintainer="InvestProp DevOps <devops@investprop.com>"
+LABEL org.opencontainers.image.title="InvestProp PostgreSQL"
+LABEL org.opencontainers.image.description="Production PostgreSQL for InvestProp platform"
+LABEL org.opencontainers.image.version="1.0.0"
+
+# 3. Environment — defaults for local dev; override in production
+#    via docker-compose, Kubernetes secrets, or CI/CD variables.
+#    NEVER hardcode production credentials here.
+ENV POSTGRES_DB=investprop \
+    POSTGRES_USER=investprop_user \
+    POSTGRES_PASSWORD=changeme_in_production \
+    PGDATA=/var/lib/postgresql/data/pgdata \
+    POSTGRES_INITDB_ARGS="--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+
+# 4. Install monitoring / utility packages (optional, lightweight)
+RUN apk add --no-cache \
+    curl \
+    jq \
+    && rm -rf /var/cache/apk/*
+
+# 5. Copy custom PostgreSQL configuration for performance tuning
+COPY docker/postgres/postgresql.conf /etc/postgresql/postgresql.conf
+COPY docker/postgres/pg_hba.conf /etc/postgresql/pg_hba.conf
+
+# 6. Copy initialization scripts (executed once on first boot)
+#    Files are run in alphabetical order.
+COPY docker/postgres/initdb.d/ /docker-entrypoint-initdb.d/
+
+# 7. Set correct ownership for the data directory
+RUN mkdir -p /var/lib/postgresql/data/pgdata \
+    && chown -R postgres:postgres /var/lib/postgresql/data
+
+# 8. Expose the default PostgreSQL port
+EXPOSE 5432
+
+# 9. Healthcheck — ensures container is marked healthy only when
+#    the database is ready to accept connections
+HEALTHCHECK --interval=10s --timeout=5s --start-period=30s --retries=5 \
+    CMD pg_isready -U "$POSTGRES_USER" -d "$POSTGRES_DB" || exit 1
+
+# 10. Run as non-root (postgres user from base image)
+USER postgres
+
+# 11. Use custom config if provided
+CMD ["postgres", "-c", "config_file=/etc/postgresql/postgresql.conf"]
