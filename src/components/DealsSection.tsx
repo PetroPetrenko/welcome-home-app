@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { dealsService } from "@/services/dealsService";
 import DealCard from "@/components/DealCard";
 import type { Deal } from "@/types/deals";
+import DealCardSkeleton from "@/components/DealCardSkeleton";
 import marinaTorch from "@/assets/marina-torch.jpg";
 import hhhrTower from "@/assets/hhhr-tower.jpg";
 import oceanPeaks from "@/assets/ocean-peaks.jpg";
@@ -31,8 +32,8 @@ const DealsSection = () => {
         <div className="container mx-auto">
           <h2 className="text-2xl font-display font-bold text-gold mb-6">Open Deals</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {[1, 2, 3, 4].map((i) => (
-              <div key={i} className="aspect-[4/3] rounded-lg bg-muted animate-pulse" />
+          {[1, 2, 3, 4].map((i) => (
+              <DealCardSkeleton key={i} />
             ))}
           </div>
         </div>
