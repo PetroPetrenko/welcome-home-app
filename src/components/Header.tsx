@@ -2,7 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { LogOut, Menu, X } from "lucide-react";
+import { LogOut, Menu, X, User } from "lucide-react";
 import { useState } from "react";
 
 const Header = () => {
@@ -29,15 +29,26 @@ const Header = () => {
         {/* Desktop nav */}
         <nav className="hidden md:flex items-center gap-3">
           {user ? (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleSignOut}
-              className="border-gold/40 text-foreground hover:bg-gold/10 backdrop-blur-sm bg-card/60"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
-            </Button>
+            <>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/profile")}
+                className="text-foreground hover:text-gold backdrop-blur-sm bg-card/60"
+              >
+                <User className="w-4 h-4 mr-2" />
+                Profile
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={handleSignOut}
+                className="border-gold/40 text-foreground hover:bg-gold/10 backdrop-blur-sm bg-card/60"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+            </>
           ) : (
             <>
               <Button
@@ -77,14 +88,24 @@ const Header = () => {
           className="md:hidden mt-2 mx-4 p-4 rounded-lg backdrop-blur-lg bg-card/90 border border-border shadow-lg"
         >
           {user ? (
-            <Button
-              variant="outline"
-              className="w-full border-gold/40"
-              onClick={() => { handleSignOut(); setMobileOpen(false); }}
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Sign Out
-            </Button>
+            <div className="flex flex-col gap-2">
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => { navigate("/profile"); setMobileOpen(false); }}
+              >
+                <User className="w-4 h-4 mr-2" />
+                Profile
+              </Button>
+              <Button
+                variant="outline"
+                className="w-full border-gold/40"
+                onClick={() => { handleSignOut(); setMobileOpen(false); }}
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Sign Out
+              </Button>
+            </div>
           ) : (
             <div className="flex flex-col gap-2">
               <Button
