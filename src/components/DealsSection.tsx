@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
-import { dealsService } from "@/services/dealsService";
+import { useRealtimeDeals } from "@/hooks/useRealtimeDeals";
 import DealCard from "@/components/DealCard";
-import type { Deal } from "@/types/deals";
 import DealCardSkeleton from "@/components/DealCardSkeleton";
 import marinaTorch from "@/assets/marina-torch.jpg";
 import hhhrTower from "@/assets/hhhr-tower.jpg";
@@ -16,15 +14,7 @@ const imageMap: Record<string, string> = {
 };
 
 const DealsSection = () => {
-  const [deals, setDeals] = useState<Deal[]>([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    dealsService.getAll()
-      .then(setDeals)
-      .catch(console.error)
-      .finally(() => setLoading(false));
-  }, []);
+  const { deals, loading } = useRealtimeDeals();
 
   if (loading) {
     return (
@@ -32,7 +22,7 @@ const DealsSection = () => {
         <div className="container mx-auto">
           <h2 className="text-2xl font-display font-bold text-gold mb-6">Open Deals</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {[1, 2, 3, 4].map((i) => (
+            {[1, 2, 3, 4].map((i) => (
               <DealCardSkeleton key={i} />
             ))}
           </div>

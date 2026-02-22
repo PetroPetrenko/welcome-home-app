@@ -2,8 +2,9 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { LogOut, Menu, X, User } from "lucide-react";
+import { LogOut, Menu, X, User, MessageCircle } from "lucide-react";
 import { useState } from "react";
+import NotificationBell from "@/components/NotificationBell";
 
 const Header = () => {
   const { user, signOut } = useAuth();
@@ -30,6 +31,16 @@ const Header = () => {
         <nav className="hidden md:flex items-center gap-3">
           {user ? (
             <>
+              <NotificationBell />
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() => navigate("/chat")}
+                className="text-foreground hover:text-gold backdrop-blur-sm bg-card/60"
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Chat
+              </Button>
               <Button
                 variant="ghost"
                 size="sm"
@@ -89,6 +100,14 @@ const Header = () => {
         >
           {user ? (
             <div className="flex flex-col gap-2">
+              <Button
+                variant="ghost"
+                className="w-full"
+                onClick={() => { navigate("/chat"); setMobileOpen(false); }}
+              >
+                <MessageCircle className="w-4 h-4 mr-2" />
+                Chat
+              </Button>
               <Button
                 variant="ghost"
                 className="w-full"
