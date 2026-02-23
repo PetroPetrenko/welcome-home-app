@@ -100,6 +100,15 @@ investprop/
 | **ISP** | Types split into focused interfaces (AuthContextType, Deal) |
 | **DIP** | Components depend on service abstractions, not direct DB calls |
 
+## 🔑 Demo Login / Тестовый вход
+
+| Field    | Value              |
+|----------|--------------------|
+| Email    | `demo@investprop.com` |
+| Password | `Demo123!`         |
+
+Перейдите на `/login` и введите данные выше.
+
 ## Tech Stack
 
 | Layer | Technology |
