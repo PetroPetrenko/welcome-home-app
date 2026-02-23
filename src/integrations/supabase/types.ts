@@ -14,6 +14,51 @@ export type Database = {
   }
   public: {
     Tables: {
+      app_logs: {
+        Row: {
+          archived: boolean
+          context: Json | null
+          created_at: string
+          id: string
+          level: string
+          message: string
+          session_id: string | null
+          source: string | null
+          stack_trace: string | null
+          url: string | null
+          user_agent: string | null
+          user_id: string | null
+        }
+        Insert: {
+          archived?: boolean
+          context?: Json | null
+          created_at?: string
+          id?: string
+          level?: string
+          message: string
+          session_id?: string | null
+          source?: string | null
+          stack_trace?: string | null
+          url?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          archived?: boolean
+          context?: Json | null
+          created_at?: string
+          id?: string
+          level?: string
+          message?: string
+          session_id?: string | null
+          source?: string | null
+          stack_trace?: string | null
+          url?: string | null
+          user_agent?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       deals: {
         Row: {
           created_at: string
