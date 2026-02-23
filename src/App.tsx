@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/toaster";
+import { logger } from "@/services/logger";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import ErrorBoundary from "@/components/ErrorBoundary";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -15,6 +16,9 @@ import ChatPage from "./pages/ChatPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
+
+// Initialize logger
+logger.info("App initialized", { version: "1.0.0" });
 
 const App = () => (
   <ErrorBoundary>
